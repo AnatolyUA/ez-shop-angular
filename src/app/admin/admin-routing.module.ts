@@ -1,7 +1,25 @@
 import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
+import { RouterModule, Routes } from '@angular/router'
 
-const routes: Routes = []
+import { AdminComponent } from './admin.component'
+import { CategoriesComponent } from './categories/categories.component'
+import { CategoryDetailsComponent } from './category-details/category-details.component'
+import { ProductDetailsComponent } from './product-details/product-details.component'
+import { ProductsComponent } from './products/products.component'
+
+const routes: Routes = [
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      { path: '', redirectTo: '/admin/categories', pathMatch: 'full' },
+      { path: 'categories', component: CategoriesComponent },
+      { path: 'products', component: ProductsComponent },
+      { path: 'category/:id', component: CategoryDetailsComponent },
+      { path: 'product/:id', component: ProductDetailsComponent },
+    ],
+  },
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
