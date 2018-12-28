@@ -6,18 +6,10 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { MaterialModule } from './material.module'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
-import { ShopComponent } from './shop/shop.component'
-import { ShopModule } from './shop/shop.module'
 
 @NgModule({
-  declarations: [AppComponent, PageNotFoundComponent, ShopComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    ShopModule,
-  ],
+  declarations: [AppComponent, PageNotFoundComponent],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MaterialModule],
   providers: [],
   bootstrap: [AppComponent],
 })

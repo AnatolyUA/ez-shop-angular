@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
-import { ShopComponent } from './shop/shop.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: '/shop', pathMatch: 'full' },
-  { path: 'shop', component: ShopComponent },
+  { path: '', redirectTo: '/shop/home', pathMatch: 'full' },
+  { path: 'shop', loadChildren: './shop/shop.module#ShopModule' },
   { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
   { path: '**', component: PageNotFoundComponent },
 ]

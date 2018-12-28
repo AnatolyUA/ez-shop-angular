@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
-import { ProductDetailsComponent } from '../admin/product-details/product-details.component'
-import { ProductsComponent } from '../admin/products/products.component'
 import { HomeComponent } from './home/home.component'
+import { ProductDetailsComponent } from './product-details/product-details.component'
+import { ProductsComponent } from './products/products.component'
 import { ShopComponent } from './shop.component'
 
 const routes: Routes = [
@@ -11,11 +11,11 @@ const routes: Routes = [
     path: '',
     component: ShopComponent,
     children: [
+      { path: '', redirectTo: '/shop/home', pathMatch: 'full' },
       { path: 'product/:slug', component: ProductDetailsComponent },
       { path: 'categories/:slag', component: ProductsComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'home', component: HomeComponent },
-      { path: '' },
     ],
   },
 ]

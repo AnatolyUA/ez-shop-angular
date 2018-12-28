@@ -4,7 +4,7 @@ import { Component } from '@angular/core'
   selector: 'ez-shop-root',
   template: `
     <mat-toolbar color="primary">
-      <a mat-button routerLink="/home"><h3>EZ Shop</h3></a>
+      <a mat-button routerLink="/shop"><h3>EZ Shop</h3></a>
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,
