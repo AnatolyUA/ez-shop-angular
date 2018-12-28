@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
-import {
-  ProductDetailsComponent,
-} from '../admin/product-details/product-details.component'
+import { ProductDetailsComponent } from '../admin/product-details/product-details.component'
 import { ProductsComponent } from '../admin/products/products.component'
 import { HomeComponent } from './home/home.component'
 import { ShopComponent } from './shop.component'

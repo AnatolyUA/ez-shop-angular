@@ -6,6 +6,7 @@
     "standardize:win": "prettier **/*.ts --write",
     "standardize:linux": "prettier '**/*.ts' --write",
     "start": "npm run standardize:linux && ng serve --port 5000",
+    "startwin": "npm run standardize:win && ng serve --port 5000",
     "build": "npm run standardize:linux && ng build",
     "test": "ng test",
     "lint": "ng lint",

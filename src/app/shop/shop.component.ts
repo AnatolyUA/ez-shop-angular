@@ -1,19 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'ez-shop-shop',
   template: `
-    <p>
-      shop works!
-    </p>
+    <p>shop works!</p>
   `,
-  styles: []
+  styles: [],
 })
 export class ShopComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
