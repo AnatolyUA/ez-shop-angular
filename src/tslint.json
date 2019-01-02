@@ -13,5 +13,8 @@
             "ez-shop",
             "kebab-case"
         ]
+    },
+    "linterOptions": {
+      "exclude": ["*bbcode*"]
     }
 }

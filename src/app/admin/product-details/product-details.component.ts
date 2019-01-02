@@ -1,4 +1,33 @@
 import { Component, OnInit } from '@angular/core'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms'
+import { ErrorStateMatcher } from '@angular/material'
+import { ActivatedRoute, Router } from '@angular/router'
+import { of, zip } from 'rxjs'
+import { Category, Product } from 'src/app/common/common.interfaces'
+
+import { CategoriesService } from '../services/categories.service'
+import { ProductsService } from '../services/products.service'
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    )
+  }
+}
 
 @Component({
   selector: 'ez-shop-product-details',
@@ -6,7 +35,58 @@ import { Component, OnInit } from '@angular/core'
   styles: [],
 })
 export class ProductDetailsComponent implements OnInit {
-  constructor() {}
+  public categories: Category[]
+  public productForm: FormGroup
+  public matcher = new MyErrorStateMatcher()
 
-  ngOnInit() {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.initForm()
+  }
+
+  initForm() {
+    const productId = this.activatedRoute.snapshot.params['id']
+    const productToEdit = productId
+      ? this.productsService.getProduct(productId)
+      : of(new Product())
+
+    zip(this.categoriesService.getCategories(), productToEdit).subscribe(data => {
+      this.categories = data[0].filter(c => c !== null)
+      const product: Product = data[1]
+
+      this.productForm = this.formBuilder.group({
+        id: [product.id],
+        name: [product.name, Validators.required],
+        price: [product.price, [Validators.required, Validators.min(0)]],
+        categoriesSelected: [product.categories.length, [Validators.min(1)]],
+        description: [product.description],
+        categories: this.formBuilder.array(
+          this.categories.map(c =>
+            this.formBuilder.control(product.categories.some(pc => pc.id === c.id))
+          )
+        ),
+      })
+    })
+
+    this.productForm.controls['categories'].valueChanges.subscribe((value: Boolean[]) => {
+      this.productForm.controls['categoriesSelected'].setValue(
+        value.filter(c => c).length
+      )
+    })
+  }
+
+  save(formValue: any) {
+    // this.router.navigate(['admin/product', 2])
+    console.log(this.productForm)
+    if (!this.productForm.valid) {
+      return
+    }
+  }
 }

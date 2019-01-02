@@ -10,6 +10,13 @@ import { Component, OnInit } from '@angular/core'
       <a mat-button routerLink="/admin/products" routerLinkActive="active-link">
         Products
       </a>
+      <span style="flex:1 1 auto"></span>
+      <a mat-button routerLink="/admin/new-category" routerLinkActive="active-link">
+        Add Category
+      </a>
+      <a mat-button routerLink="/admin/product" routerLinkActive="active-link">
+        Add Product
+      </a>
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,

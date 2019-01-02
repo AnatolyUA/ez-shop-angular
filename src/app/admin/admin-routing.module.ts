@@ -16,7 +16,9 @@ const routes: Routes = [
       { path: 'categories', component: CategoriesComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'category/:id', component: CategoryDetailsComponent },
+      { path: 'new-category', component: CategoryDetailsComponent },
       { path: 'product/:id', component: ProductDetailsComponent },
+      { path: 'product', component: ProductDetailsComponent },
     ],
   },
 ]

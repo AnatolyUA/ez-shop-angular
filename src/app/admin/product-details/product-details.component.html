@@ -1,3 +1,37 @@
-<p>
-  product-details works!
-</p>
+<div class="wrapper">
+  <form *ngIf="productForm" #form="ngForm"  [formGroup]="productForm" class='flex-col' (ngSubmit)="save(productForm.value)">
+    <button mat-button type="submit">Save</button>
+    <input type="hidden" formControlName="categoriesSelected">
+    <input type="hidden" formControlName="id">
+    <div class="flex-row">
+      <div class='flex-60 flex-col'>
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Priduct Name">
+          <mat-error *ngIf="productForm.get('name').hasError('required')">
+            Product name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field type="number">
+          <input matInput formControlName="price" placeholder="Price">
+          <mat-error *ngIf="productForm.get('price').hasError('required') || productForm.get('price').hasError('min')">
+            Price is required and must be more than 0
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput formControlName="description" placeholder="Description"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="flex-col">
+        <mat-error *ngIf="(productForm.get('categories').dirty || form.submitted)
+          &&  productForm.status && productForm.get('categoriesSelected').hasError('min')">
+          Please, select at least one category
+        </mat-error>
+        <mat-checkbox formArrayName="categories" *ngFor="let category of productForm.controls['categories'].controls; let i = index"
+          [formControl]="category" [checked]="category.value">{{ categories[i].name }}</mat-checkbox>
+      </div>
+    </div>
+
+
+  </form>
+
+</div>
