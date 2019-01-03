@@ -82,6 +82,7 @@ export class ProductsService {
 
   public addOrUpdateProduct(product: Product): Observable<Product> {
     const id = product.id === 0 ? this.products.length : product.id
+    product.id = id
     this.products[id] = product
     this.save()
     return of(this.products[id])

@@ -53,9 +53,8 @@ export class ProductDetailsComponent implements OnInit {
 
   initForm() {
     const productId = this.activatedRoute.snapshot.params['id']
-    const productToEdit = productId
-      ? this.productsService.getProduct(productId)
-      : of(new Product())
+    const productToEdit =
+      productId > 0 ? this.productsService.getProduct(productId) : of(new Product())
 
     zip(this.categoriesService.getCategories(), productToEdit).subscribe(data => {
       this.categories = data[0].filter(c => c !== null)
@@ -64,7 +63,10 @@ export class ProductDetailsComponent implements OnInit {
       this.productForm = this.formBuilder.group({
         id: [product.id],
         name: [product.name, Validators.required],
-        price: [product.price, [Validators.required, Validators.min(0)]],
+        price: [
+          product.price,
+          [Validators.required, Validators.pattern('^[0-9][0-9.]*$')],
+        ],
         categoriesSelected: [product.categories.length, [Validators.min(1)]],
         description: [product.description],
         categories: this.formBuilder.array(
@@ -83,10 +85,29 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   save(formValue: any) {
-    // this.router.navigate(['admin/product', 2])
-    console.log(this.productForm)
     if (!this.productForm.valid) {
       return
     }
+
+    const product: Product = {
+      id: parseInt(formValue.id, 10),
+      description: formValue.description,
+      name: formValue.name,
+      price: parseFloat(formValue.price),
+      categories: this.categories.filter((_, i) => formValue.categories[i]),
+    }
+
+    this.productsService.addOrUpdateProduct(product).subscribe(
+      data => {
+        const productId = this.activatedRoute.snapshot.params['id']
+        if (!productId || productId === 0) {
+          this.router.navigate(['/admin/product', data.id])
+        }
+      },
+      error => {
+        // TODO: Display notifications on error
+        console.log(error)
+      }
+    )
   }
 }

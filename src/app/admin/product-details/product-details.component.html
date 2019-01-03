@@ -13,7 +13,7 @@
         </mat-form-field>
         <mat-form-field type="number">
           <input matInput formControlName="price" placeholder="Price">
-          <mat-error *ngIf="productForm.get('price').hasError('required') || productForm.get('price').hasError('min')">
+          <mat-error *ngIf="productForm.get('price').hasError('required') || productForm.get('price').hasError('pattern')">
             Price is required and must be more than 0
           </mat-error>
         </mat-form-field>
