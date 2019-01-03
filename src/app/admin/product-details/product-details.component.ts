@@ -52,22 +52,25 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   initForm() {
-    const productId = this.activatedRoute.snapshot.params['id']
+    const productId = parseInt(this.activatedRoute.snapshot.params['id'], 10)
     const productToEdit =
       productId > 0 ? this.productsService.getProduct(productId) : of(new Product())
 
     zip(this.categoriesService.getCategories(), productToEdit).subscribe(data => {
-      this.categories = data[0].filter(c => c !== null)
+      this.categories = data[0]
       const product: Product = data[1]
 
       this.productForm = this.formBuilder.group({
-        id: [product.id],
+        id: [product.id, [Validators.required, Validators.pattern('^[0-9]+$')]],
         name: [product.name, Validators.required],
         price: [
           product.price,
           [Validators.required, Validators.pattern('^[0-9][0-9.]*$')],
         ],
-        categoriesSelected: [product.categories.length, [Validators.min(1)]],
+        categoriesSelected: [
+          product.categories.length,
+          [Validators.required, Validators.min(1)],
+        ],
         description: [product.description],
         categories: this.formBuilder.array(
           this.categories.map(c =>

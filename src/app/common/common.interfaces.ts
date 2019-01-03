@@ -1,5 +1,5 @@
-export interface Category {
-  id: number
+export class Category {
+  id = 0
   name: string
   description?: string
 }

@@ -25,7 +25,12 @@ export class CategoriesService extends CacheService {
     return of(this.categories.filter(c => c))
   }
 
-  addOrUpdate(category: Category): Observable<boolean> {
+  getCategory(id: number): Observable<Category> {
+    const foundCategory = this.categories[id]
+    return of(foundCategory)
+  }
+
+  addOrUpdate(category: Category): Observable<Category> {
     if (category.id === 0) {
       category.id = this.categories.length
       this.categories.push(category)
@@ -33,7 +38,7 @@ export class CategoriesService extends CacheService {
       this.categories[category.id] = category
     }
     this.save()
-    return of(true)
+    return of(category)
   }
 
   remove(id: number): Observable<boolean> {

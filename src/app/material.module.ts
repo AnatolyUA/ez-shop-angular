@@ -9,7 +9,9 @@ import {
   MatListModule,
   MatPaginatorModule,
   MatSidenavModule,
+  MatSlideToggleModule,
   MatSnackBarModule,
+  MatTableModule,
   MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material'
@@ -29,6 +31,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
     MatListModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    MatTableModule,
     MatCheckboxModule,
   ],
   exports: [
@@ -41,6 +45,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
     MatInputModule,
     MatTooltipModule,
     MatSidenavModule,
+    MatSlideToggleModule,
+    MatTableModule,
     MatListModule,
     MatDialogModule,
     MatSnackBarModule,
