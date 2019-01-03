@@ -7,6 +7,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatPaginatorModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatToolbarModule,
@@ -16,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 
 @NgModule({
   imports: [
+    MatPaginatorModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
@@ -30,6 +32,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
     MatCheckboxModule,
   ],
   exports: [
+    MatPaginatorModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,

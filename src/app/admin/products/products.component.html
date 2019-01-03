@@ -1,3 +1,21 @@
-<p>
-  products works!
-</p>
+<div class="wrapper">
+  <mat-form-field class="full-width">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Search" aria-label="Search" [formControl]="search">
+    <mat-hint>Search by product name</mat-hint>
+    <mat-error *ngIf="search.invalid">
+      Type more than one character to search
+    </mat-error>
+  </mat-form-field>
+
+  <div *ngIf="products && products.length > 0">
+    <div *ngFor="let product of products">
+      <a [routerLink]="['/admin/product', product.id]"
+      routerLinkActive="router-link-active">
+        {{ product.name }}
+      </a>
+    </div>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

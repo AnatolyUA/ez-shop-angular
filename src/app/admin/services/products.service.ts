@@ -41,7 +41,7 @@ export class ProductsService {
 
     if (productsRequest.keyword) {
       products = products.filter(p =>
-        p.toString().includes(productsRequest.keyword.toLocaleLowerCase())
+        p.name.toLocaleLowerCase().includes(productsRequest.keyword.toLocaleLowerCase())
       )
     }
 

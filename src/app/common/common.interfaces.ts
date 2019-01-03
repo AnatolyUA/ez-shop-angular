@@ -10,8 +10,4 @@ export class Product {
   description: string
   price: number
   categories: Category[] = []
-
-  public toString(): string {
-    return this.name.toLocaleLowerCase()
-  }
 }
