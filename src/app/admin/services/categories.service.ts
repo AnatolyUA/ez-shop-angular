@@ -22,7 +22,7 @@ export class CategoriesService extends CacheService {
       this.seed()
     }
 
-    return of(this.categories)
+    return of(this.categories.filter(c => c))
   }
 
   addOrUpdate(category: Category): Observable<boolean> {
