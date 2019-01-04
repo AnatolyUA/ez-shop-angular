@@ -24,3 +24,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table {
   width:100%;
 }
+
+.flex-blocks {
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    text-decoration: none;
+  }
+  & > * {
+    flex:1 1 250px;
+    max-width: 100%;
+    margin:10px;
+  }
+}

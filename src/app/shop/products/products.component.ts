@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'ez-shop-products',
-  template: `
-    <p>products works!</p>
-  `,
+  templateUrl: './products.component.html',
   styles: [],
 })
 export class ProductsComponent implements OnInit {

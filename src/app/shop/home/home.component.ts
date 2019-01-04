@@ -1,14 +1,35 @@
 import { Component, OnInit } from '@angular/core'
+import { Category } from 'src/app/common/common.interfaces'
+import {
+  CategoriesShopMockService,
+} from 'src/app/common/services/categories-shop-mock.service'
 
 @Component({
   selector: 'ez-shop-home',
   template: `
-    <p>home works!</p>
+    <div class="wrapper">
+      <h1>Shop Categories</h1>
+      <div class="flex-blocks">
+        <a *ngFor="let cat of categories" [routerLink]="['/shop/category', cat.id]">
+          <mat-card>
+            <mat-card-title>{{ cat.name }}</mat-card-title>
+            <mat-card-content *ngIf="cat.description">
+              <div>{{ cat.description }}</div>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </div>
+    </div>
   `,
   styles: [],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  categories: Category[]
+  constructor(private categoriesShopMockService: CategoriesShopMockService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.categoriesShopMockService.getCategories().subscribe(cats => {
+      this.categories = cats
+    })
+  }
 }
