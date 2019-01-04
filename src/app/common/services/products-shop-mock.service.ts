@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import { CacheService } from 'src/app/common/cache.service'
-import { Product } from 'src/app/common/common.interfaces'
-import {
-  OrderBy,
-  ProductsRequest,
-  ProductsResponse,
-} from 'src/app/common/productsRequest'
+
+import { CacheService } from '../cache.service'
+import { Product } from '../common.interfaces'
+import { OrderBy, ProductsRequest, ProductsResponse } from '../productsRequest'
+import { IProductsShop } from './interfaces'
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService {
+export class ProductsShopServiceMock implements IProductsShop {
   private products: Product[]
   private cacheId = 'products'
 
@@ -19,16 +17,11 @@ export class ProductsService {
     this.products = this.cacheService.getItem(this.cacheId)
     if (!this.products) {
       this.seed()
+      this.save()
     }
   }
 
-  public getProduct(id: number): Observable<Product> {
-    return of(this.products[id])
-  }
-
-  public getProducts(
-    productsRequest = new ProductsRequest()
-  ): Observable<ProductsResponse> {
+  getProducts(productsRequest: ProductsRequest): Observable<ProductsResponse> {
     const result = new ProductsResponse(productsRequest)
 
     let products = this.products.filter(p => p != null)
@@ -67,7 +60,12 @@ export class ProductsService {
     return of(result)
   }
 
-  private sortingFunction(orderBy: OrderBy) {
+  getProduct(id: number): Observable<Product> {
+    console.log(this.products)
+    return of(this.products[id])
+  }
+
+  protected sortingFunction(orderBy: OrderBy) {
     if (orderBy.propertyName === 'price') {
       return (a: Product, b: Product) =>
         orderBy.ordering === 'desc' ? b.price - a.price : a.price - b.price
@@ -79,24 +77,11 @@ export class ProductsService {
         : a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
   }
 
-  public addOrUpdateProduct(product: Product): Observable<Product> {
-    const id = product.id === 0 ? this.products.length : product.id
-    product.id = id
-    this.products[id] = product
-    this.save()
-    return of(this.products[id])
-  }
-
-  public removeProduct(id: number) {
-    this.products[id] = null
-    this.save()
-  }
-
-  private save(): void {
+  protected save(): void {
     this.cacheService.setItem(this.cacheId, this.products)
   }
 
-  private seed() {
+  protected seed(): void {
     this.products = [
       null,
       {

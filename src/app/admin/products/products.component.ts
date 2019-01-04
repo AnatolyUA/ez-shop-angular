@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core'
 import { FormControl, Validators } from '@angular/forms'
 import { MatPaginator } from '@angular/material'
 import { merge } from 'rxjs'
@@ -6,6 +12,7 @@ import {
   catchError,
   debounceTime,
   delay,
+  filter,
   map,
   startWith,
   switchMap,
@@ -25,11 +32,18 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   search = new FormControl('', Validators.minLength(2))
   isLoading = false
   @ViewChild(MatPaginator) paginator: MatPaginator
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {}
   ngAfterViewInit() {
-    merge(this.paginator.page, this.search.valueChanges.pipe(debounceTime(1000)))
+    const search$ = this.search.valueChanges.pipe(
+      debounceTime(1000),
+      filter(keyword => !keyword || keyword.length > 1)
+    )
+    search$.subscribe(keyword => {
+      this.paginator.firstPage()
+    })
+    merge(this.paginator.page, search$)
       .pipe(
         startWith({}),
         delay(0),
@@ -43,10 +57,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
           return this.productsService.getProducts(productsRequest)
         }),
         map(data => {
-          this.isLoading = false
-          this.paginator.length = data.total
-          this.paginator.pageIndex = data.page
-          return data.products
+          return data
         }),
         catchError(error => {
           this.isLoading = false
@@ -55,6 +66,11 @@ export class ProductsComponent implements OnInit, AfterViewInit {
           return []
         })
       )
-      .subscribe(data => (this.products = data))
+      .subscribe(data => {
+        this.isLoading = false
+        this.paginator.length = data.total
+        this.paginator.pageIndex = data.page
+        this.products = data.products
+      })
   }
 }

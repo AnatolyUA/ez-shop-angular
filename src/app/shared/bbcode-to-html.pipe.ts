@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
-import { bbCodeParser } from 'js-bbcode-parser'
+import bbCodeParser from 'js-bbcode-parser'
+
+// import { bbCodeParser } from '../../../node_modules/js-bbcode-parser/src/parser.js'
 
 @Pipe({
   name: 'bbcodeToHtml',

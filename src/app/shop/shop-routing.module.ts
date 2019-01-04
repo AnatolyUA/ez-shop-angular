@@ -12,8 +12,8 @@ const routes: Routes = [
     component: ShopComponent,
     children: [
       { path: '', redirectTo: '/shop/home', pathMatch: 'full' },
-      { path: 'product/:slug', component: ProductDetailsComponent },
-      { path: 'categories/:slag', component: ProductsComponent },
+      { path: 'product/:id', component: ProductDetailsComponent },
+      { path: 'categories/:id', component: ProductsComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'home', component: HomeComponent },
     ],
