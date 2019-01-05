@@ -1,0 +1,40 @@
+<div class="wrapper">
+  <div class="flex-row">
+    <div class="search-panel">
+      <mat-form-field class="flex-col">
+        <mat-icon matPrefix>search</mat-icon>
+        <input class="full-width" matInput placeholder="Search" aria-label="Search" [formControl]="search">
+        <mat-hint>Search by product name</mat-hint>
+        <mat-error *ngIf="search.invalid">
+          Type more than one character to search
+        </mat-error>
+      </mat-form-field>
+      <div *ngIf="categoriesCheckboxes" class="flex-col categories">
+        <mat-checkbox (change)="changeCategories(i)" *ngFor="let category of categoriesCheckboxes.controls; let i = index"
+          [formControl]="category" [checked]="category.value">{{ categories[i].name }}</mat-checkbox>
+      </div>
+    </div>
+    <div>
+      <mat-button-toggle-group>
+        <mat-button-toggle *ngFor="let sort of sorts; let i = index" [checked]="i === 0" value="{{ i }}">
+          {{ sort.propertyName }}
+          <mat-icon>{{ sort.ordering === 'asc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <div  *ngIf="products && products.length > 0">
+        <div *ngFor="let product of products">
+          <a [routerLink]="['/shop/product', product.id]" routerLinkActive="router-link-active">
+            {{ product.name }}
+          </a>
+        </div>
+      </div>
+
+      <mat-paginator [style.visibility]="products && products.length > 0 ? 'visible' : 'hidden'" [pageSizeOptions]="[3, 5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+
+
+
+
+</div>

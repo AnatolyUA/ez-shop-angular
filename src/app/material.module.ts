@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import {
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatDialogModule,
   MatFormFieldModule,
@@ -21,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
   imports: [
     MatPaginatorModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
@@ -38,6 +40,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
   exports: [
     MatPaginatorModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,

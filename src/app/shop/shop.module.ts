@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { MaterialModule } from '../material.module'
 import { BbcodeToHtmlPipe } from '../shared/bbcode-to-html.pipe'
@@ -17,6 +18,12 @@ import { ShopComponent } from './shop.component'
     ShopComponent,
     BbcodeToHtmlPipe,
   ],
-  imports: [CommonModule, ShopRoutingModule, MaterialModule],
+  imports: [
+    CommonModule,
+    ShopRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ShopModule {}
