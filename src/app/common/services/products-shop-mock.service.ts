@@ -26,7 +26,10 @@ export class ProductsShopServiceMock implements IProductsShop {
 
     let products = this.products.filter(p => p != null)
 
-    if (productsRequest.categories.length > 0) {
+    if (
+      productsRequest.categories.length > 0 &&
+      productsRequest.categories.every(cId => cId !== -1) // 'All categories' option
+    ) {
       products = products.filter(p =>
         p.categories.some(c => productsRequest.categories.indexOf(c.id) > -1)
       )
@@ -43,7 +46,7 @@ export class ProductsShopServiceMock implements IProductsShop {
       return of(result)
     }
 
-    products = products.sort(this.sortingFunction(productsRequest.orderBy))
+    products = products.sort(this.getSortingFunction(productsRequest.orderBy))
     result.totalPages = Math.ceil(result.total / productsRequest.pageSize)
     if (productsRequest.page <= result.totalPages - 1) {
       products = products.splice(
@@ -65,7 +68,7 @@ export class ProductsShopServiceMock implements IProductsShop {
     return of(this.products[id])
   }
 
-  protected sortingFunction(orderBy: OrderBy) {
+  protected getSortingFunction(orderBy: OrderBy) {
     if (orderBy.propertyName === 'price') {
       return (a: Product, b: Product) =>
         orderBy.ordering === 'desc' ? b.price - a.price : a.price - b.price

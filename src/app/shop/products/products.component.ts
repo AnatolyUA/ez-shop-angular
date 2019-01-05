@@ -1,15 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms'
-import {
-  MatButtonToggleChange,
-  MatButtonToggleGroup,
-  MatPaginator,
-} from '@angular/material'
+import { MatButtonToggleGroup, MatPaginator } from '@angular/material'
+import { merge } from 'rxjs'
+import { debounceTime, filter, startWith, switchMap } from 'rxjs/operators'
 import { Category, Product } from 'src/app/common/common.interfaces'
-import { OrderBy } from 'src/app/common/productsRequest'
+import { OrderBy, ProductsRequest } from 'src/app/common/productsRequest'
 import {
   CategoriesShopMockService,
 } from 'src/app/common/services/categories-shop-mock.service'
+import {
+  ProductsShopServiceMock,
+} from 'src/app/common/services/products-shop-mock.service'
 
 @Component({
   selector: 'ez-shop-products',
@@ -52,6 +53,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private categoriesShopService: CategoriesShopMockService,
+    private productsShopServie: ProductsShopServiceMock,
     private formBuilder: FormBuilder
   ) {}
 
@@ -62,7 +64,42 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     })
   }
   ngAfterViewInit() {
-    this.sorting.change.subscribe((e: MatButtonToggleChange) => console.log(e.value))
+    const sorting$ = this.sorting.change
+    const categories$ = this.categoriesCheckboxes.valueChanges.pipe(debounceTime(100))
+    const search$ = this.search.valueChanges.pipe(
+      debounceTime(1000),
+      filter(keyword => !keyword || keyword.length > 1)
+    )
+    const paginator$ = this.paginator.page
+
+    merge(sorting$, categories$, search$).subscribe(() => {
+      this.paginator.firstPage()
+    })
+
+    merge(sorting$, categories$, search$, paginator$)
+      .pipe(
+        startWith({}),
+        debounceTime(10), // to prevent double requests on paginator.firstPage()
+        switchMap(() => {
+          const productsRequest = new ProductsRequest(
+            this.paginator.pageIndex,
+            this.paginator.pageSize,
+            this.search.value,
+            this.categories
+              .filter((_, i) => this.categoriesCheckboxes.value[i])
+              .map(c => c.id),
+            this.sorts[this.sorting.value]
+          )
+          console.log(productsRequest)
+          return this.productsShopServie.getProducts(productsRequest)
+        })
+      )
+      .subscribe(data => {
+        this.paginator.length = data.total
+        this.paginator.pageIndex = data.page
+        this.products = data.products
+        console.log(data)
+      })
   }
   private initForm() {
     this.categoriesCheckboxes = this.formBuilder.array(
