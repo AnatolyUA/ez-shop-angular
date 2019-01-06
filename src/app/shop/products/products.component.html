@@ -1,4 +1,7 @@
 <div class="wrapper">
+  <div *ngIf="loading" class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
   <div class="flex-row">
     <div class="search-panel">
       <mat-form-field class="flex-col">
@@ -15,17 +18,22 @@
       </div>
     </div>
     <div>
-      <mat-button-toggle-group>
-        <mat-button-toggle *ngFor="let sort of sorts; let i = index" [checked]="i === 0" value="{{ i }}">
-          {{ sort.propertyName }}
-          <mat-icon>{{ sort.ordering === 'asc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon>
-        </mat-button-toggle>
-      </mat-button-toggle-group>
 
-      <div  *ngIf="products && products.length > 0">
+      <div style="text-align: right; margin-top: 20px;">
+        <mat-button-toggle-group [style.visibility]="products && products.length > 0 ? 'visible' : 'hidden'" style="zoom:0.8;">
+          <mat-button-toggle *ngFor="let sort of sorts; let i = index" value="{{ i }}">
+            {{ sort.propertyName }}
+            <mat-icon>{{ sort.ordering === 'asc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div *ngIf="!loading && products && products.length === 0" class="center">Nothing found</div>
+      <div  *ngIf="products && products.length > 0" style="margin-top: 20px">
         <div *ngFor="let product of products">
-          <a [routerLink]="['/shop/product', product.id]" routerLinkActive="router-link-active">
-            {{ product.name }}
+          <a class="product" [routerLink]="['/shop/product', product.id]" routerLinkActive="router-link-active">
+            <div class="name">{{ product.name }}</div>
+            <div class="price">${{ product.price }}</div>
           </a>
         </div>
       </div>

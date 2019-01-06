@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
+import { delay } from 'rxjs/operators'
 
 import { CacheService } from '../cache.service'
 import { Category } from '../common.interfaces'
@@ -18,7 +19,7 @@ export class CategoriesShopMockService implements ICategoriesShop {
     }
   }
   getCategories(): Observable<Category[]> {
-    return of(this.categories.filter(c => c))
+    return of(this.categories.filter(c => c)).pipe(delay(1000))
   }
 
   protected seed(): void {

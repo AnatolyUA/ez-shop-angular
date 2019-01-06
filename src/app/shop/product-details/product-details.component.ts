@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Product } from 'src/app/common/common.interfaces'
+import { ProductsRequest } from 'src/app/common/productsRequest'
 import {
   ProductsShopServiceMock,
 } from 'src/app/common/services/products-shop-mock.service'
@@ -15,7 +16,7 @@ import {
       Available in:
       <a
         mat-button
-        [routerLink]="['/shop/category', cat.id]"
+        [routerLink]="getLink(cat.id)"
         *ngFor="let cat of product.categories"
         >{{ cat.name }}</a
       >
@@ -41,5 +42,10 @@ export class ProductDetailsComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+  getLink(categoryId: number) {
+    const rq = ProductsRequest.fromCategoryId(categoryId)
+    return ['/shop/products', { request: JSON.stringify(rq) }]
   }
 }

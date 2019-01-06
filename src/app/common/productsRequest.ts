@@ -14,7 +14,7 @@ export class ProductsRequest {
   public pageSize: number
 
   constructor(
-    page = 1,
+    page = 0,
     pageSize = 10,
     keyword = '',
     categories = [],
@@ -25,6 +25,12 @@ export class ProductsRequest {
     this.keyword = keyword
     this.categories = categories
     this.orderBy = orderBy
+  }
+
+  public static fromCategoryId(id: number): ProductsRequest {
+    const pr = new ProductsRequest()
+    pr.categories = [id]
+    return pr
   }
 }
 

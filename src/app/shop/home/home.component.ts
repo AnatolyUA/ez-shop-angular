@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Category } from 'src/app/common/common.interfaces'
+import { ProductsRequest } from 'src/app/common/productsRequest'
 import {
   CategoriesShopMockService,
 } from 'src/app/common/services/categories-shop-mock.service'
@@ -10,7 +11,7 @@ import {
     <div class="wrapper">
       <h1>Shop Categories</h1>
       <div class="flex-blocks">
-        <a *ngFor="let cat of categories" [routerLink]="['/shop/category', cat.id]">
+        <a *ngFor="let cat of categories" [routerLink]="getLink(cat.id)">
           <mat-card>
             <mat-card-title>{{ cat.name }}</mat-card-title>
             <mat-card-content *ngIf="cat.description">
@@ -31,5 +32,10 @@ export class HomeComponent implements OnInit {
     this.categoriesShopMockService.getCategories().subscribe(cats => {
       this.categories = cats
     })
+  }
+
+  getLink(categoryId: number) {
+    const rq = ProductsRequest.fromCategoryId(categoryId)
+    return ['/shop/products', { request: JSON.stringify(rq) }]
   }
 }

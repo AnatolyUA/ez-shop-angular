@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
+import { delay } from 'rxjs/operators'
 
 import { CacheService } from '../cache.service'
 import { Product } from '../common.interfaces'
@@ -43,7 +44,7 @@ export class ProductsShopServiceMock implements IProductsShop {
 
     result.total = products.length
     if (result.total === 0) {
-      return of(result)
+      return of(result).pipe(delay(1000))
     }
 
     products = products.sort(this.getSortingFunction(productsRequest.orderBy))
@@ -55,17 +56,17 @@ export class ProductsShopServiceMock implements IProductsShop {
       )
       result.page = productsRequest.page
       result.products = products
-      return of(result)
+      return of(result).pipe(delay(1000))
     }
 
     result.page = 1
     result.products = products.splice(0, productsRequest.pageSize)
-    return of(result)
+    return of(result).pipe(delay(1000))
   }
 
   getProduct(id: number): Observable<Product> {
     console.log(this.products)
-    return of(this.products[id])
+    return of(this.products[id]).pipe(delay(1000))
   }
 
   protected getSortingFunction(orderBy: OrderBy) {
