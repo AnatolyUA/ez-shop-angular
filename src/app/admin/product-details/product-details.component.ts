@@ -78,11 +78,13 @@ export class ProductDetailsComponent implements OnInit {
           )
         ),
       })
-    })
 
-    this.productForm.controls['categories'].valueChanges.subscribe((value: Boolean[]) => {
-      this.productForm.controls['categoriesSelected'].setValue(
-        value.filter(c => c).length
+      this.productForm.controls['categories'].valueChanges.subscribe(
+        (value: Boolean[]) => {
+          this.productForm.controls['categoriesSelected'].setValue(
+            value.filter(c => c).length
+          )
+        }
       )
     })
   }

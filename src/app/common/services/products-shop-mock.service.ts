@@ -11,10 +11,10 @@ import { IProductsShop } from './interfaces'
   providedIn: 'root',
 })
 export class ProductsShopServiceMock implements IProductsShop {
-  private products: Product[]
-  private cacheId = 'products'
+  protected products: Product[]
+  protected cacheId = 'products'
 
-  constructor(private cacheService: CacheService) {
+  constructor(protected cacheService: CacheService) {
     this.products = this.cacheService.getItem(this.cacheId)
     if (!this.products) {
       this.seed()
@@ -67,6 +67,18 @@ export class ProductsShopServiceMock implements IProductsShop {
   getProduct(id: number): Observable<Product> {
     console.log(this.products)
     return of(this.products[id]).pipe(delay(1000))
+  }
+
+  public countProductsForCategories(): Observable<Array<number>> {
+    const result = []
+    this.products
+      .filter(p => p)
+      .forEach(p => {
+        p.categories.forEach(c => {
+          result[c.id] = result[c.id] ? result[c.id] + 1 : 1
+        })
+      })
+    return of(result)
   }
 
   protected getSortingFunction(orderBy: OrderBy) {
