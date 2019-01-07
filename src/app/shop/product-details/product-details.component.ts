@@ -9,6 +9,7 @@ import {
 @Component({
   selector: 'ez-shop-product-details',
   template: `
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     <div class="wrapper" *ngIf="product">
       <h1>{{ product.name }}</h1>
       <div class="price">Price: {{ product.price }}</div>
@@ -26,6 +27,7 @@ import {
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product
+  loading = true
   constructor(
     private activatedRote: ActivatedRoute,
     private productsService: ProductsShopServiceMock
@@ -36,10 +38,12 @@ export class ProductDetailsComponent implements OnInit {
     this.productsService.getProduct(id).subscribe(
       p => {
         this.product = p
+        this.loading = false
       },
       error => {
         // TODO: show notification on error
         console.log(error)
+        this.loading = false
       }
     )
   }

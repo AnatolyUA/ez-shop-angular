@@ -11,6 +11,9 @@ export class BbcodeToHtmlPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
   transform(value: string): SafeHtml {
+    if (!value) {
+      return ''
+    }
     value = bbCodeParser.parse(value)
     return this.sanitizer.bypassSecurityTrustHtml(value)
   }
