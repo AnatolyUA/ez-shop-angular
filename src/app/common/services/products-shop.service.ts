@@ -10,12 +10,12 @@ import { IProductsShop } from './interfaces'
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsShopServiceMock implements IProductsShop {
+export class ProductsShopService implements IProductsShop {
   protected products: Product[]
   protected cacheId = 'products'
 
   constructor(protected cacheService: CacheService) {
-    console.log('ProductsShopServiceMock')
+    console.log('ProductsShopService')
     this.products = this.cacheService.getItem(this.cacheId)
     if (!this.products) {
       this.seed()

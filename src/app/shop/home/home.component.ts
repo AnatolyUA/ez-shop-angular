@@ -6,9 +6,7 @@ import { ProductsRequest } from 'src/app/common/productsRequest'
 import {
   CategoriesShopMockService,
 } from 'src/app/common/services/categories-shop-mock.service'
-import {
-  ProductsShopServiceMock,
-} from 'src/app/common/services/products-shop-mock.service'
+import { ProductsShopService } from 'src/app/common/services/products-shop.service'
 
 @Component({
   selector: 'ez-shop-home',
@@ -36,7 +34,7 @@ export class HomeComponent implements OnInit {
   loading = true
   constructor(
     private categoriesShopMockService: CategoriesShopMockService,
-    private productsService: ProductsShopServiceMock
+    private productsService: ProductsShopService
   ) {}
 
   ngOnInit() {
