@@ -101,7 +101,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     )
 
     const sorting$ = this.sorting.change
-    const categories$ = this.categoriesCheckboxes.valueChanges.pipe(debounceTime(100))
+    const categories$ = this.categoriesCheckboxes.valueChanges.pipe(debounceTime(1000))
     const search$ = this.search.valueChanges.pipe(
       debounceTime(1000),
       filter(keyword => !keyword || keyword.length > 1)
@@ -115,7 +115,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     merge(sorting$, categories$, search$, paginator$)
       .pipe(
         // to prevent double requests on paginator.firstPage()
-        debounceTime(1000),
+        debounceTime(10),
         tap(() => {
           const productsRequest = new ProductsRequest(
             this.paginator.pageIndex,
