@@ -1,4 +1,5 @@
 <div class="wrapper">
+  <h1>Products</h1>
   <mat-form-field class="full-width">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput placeholder="Search" aria-label="Search" [formControl]="search">
@@ -9,11 +10,21 @@
   </mat-form-field>
 
   <div *ngIf="products && products.length > 0">
-    <div *ngFor="let product of products">
-      <a [routerLink]="['/admin/product', product.id]"
-      routerLinkActive="router-link-active">
-        {{ product.name }}
-      </a>
+    <div matRipple *ngFor="let product of products">
+      <div class="product-admin" >
+        <div class="name">{{ product.name }}</div>
+        <div class="price">${{ product.price }}</div>
+        <div>
+          <button mat-mini-fab (click)="delete(product)" matTooltip="Delete product" color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button mat-mini-fab [routerLink]="['/admin/product', product.id]" matTooltip="Edit product" color="accent">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

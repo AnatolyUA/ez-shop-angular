@@ -7,6 +7,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin: 0 auto;
   max-width: 900px;
   position: relative;
+
+  &:first-of-type {
+    margin-top:20px;
+  }
 }
   .flex-col {
     width: 100%;
@@ -26,16 +30,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     flex: 0 1 200px;
     margin-right: 20px;
   }
-
-  & > * {
-    flex: 1 1 auto;
+  .categories-right {
+    flex:0 1 200px;
+    margin-left: 20px;
   }
 }
 
 table {
   width:100%;
 }
-
+.spacer {
+  flex:1 1 auto;
+}
 .flex-blocks {
   display: flex;
   flex-wrap: wrap;
@@ -85,5 +91,21 @@ table {
 .price {
   flex: 0 0 100px;
   text-align: right;
+}
+
+.product-admin {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: #949494 solid 1px;
+
+  & > * {
+    margin: 5px;
+    padding: 5px;
+  }
+
+  .name, .price {
+    padding: 20px 0 0 0;
+    margin: 0;
+  }
 }
 

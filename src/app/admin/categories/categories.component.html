@@ -1,9 +1,26 @@
 <div class="wrapper">
-  <ul>
-    <li *ngFor="let category of categories">
-      <a [routerLink]="['/admin/category', category.id]">
-        {{ category.name }}
-      </a>
-    </li>
-  </ul>
+  <h1>Categories</h1>
+  <div class="flex-blocks">
+      <mat-card *ngFor="let cat of categories">
+        <mat-card-title>{{ cat.name }}</mat-card-title>
+        <mat-card-content >
+          <div>Has {{ numberOfProducts[cat.id] }} product(s)</div>
+          <div *ngIf="cat.description">{{ cat.description }}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="flex-row">
+            <span class="spacer"></span>
+
+            <button mat-mini-fab
+              (click)="delete(cat)"
+              [disabled]="numberOfProducts[cat.id] > 0"
+              matTooltip="Delete category (only if empty)"
+              color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-raised-button color="accent"  [routerLink]="['/admin/category', cat.id]">Edit</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+  </div>
 </div>

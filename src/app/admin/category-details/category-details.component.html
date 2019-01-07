@@ -1,6 +1,9 @@
 <div class="wrapper">
   <form *ngIf="categoryForm" [formGroup]="categoryForm" class="flex-col" (ngSubmit)="save(categoryForm.value)">
-    <button mat-button type="submit">Save</button>
+    <div class="flex-row">
+      <span class="spacer"></span>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
     <input type="hidden" formControlName="id">
     <mat-form-field>
       <input matInput formControlName="name" placeholder="Category Name">
@@ -37,6 +40,7 @@
   Has only {{category.name}}
 </span>
       </mat-slide-toggle>
+      <mat-spinner [diameter]="30" *ngIf="row.updating"></mat-spinner>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
+import { delay } from 'rxjs/operators'
 import { CacheService } from 'src/app/common/cache.service'
 import { Product } from 'src/app/common/common.interfaces'
 import {
@@ -84,12 +85,25 @@ export class ProductsService {
     product.id = id
     this.products[id] = product
     this.save()
-    return of(this.products[id])
+    return of(this.products[id]).pipe(delay(1000))
   }
 
-  public removeProduct(id: number) {
+  public countProductsForCategories(): Observable<Array<number>> {
+    const result = []
+    this.products
+      .filter(p => p)
+      .forEach(p => {
+        p.categories.forEach(c => {
+          result[c.id] = result[c.id] ? result[c.id] + 1 : 1
+        })
+      })
+    return of(result)
+  }
+
+  public removeProduct(id: number): Observable<boolean> {
     this.products[id] = null
     this.save()
+    return of(true)
   }
 
   private save(): void {

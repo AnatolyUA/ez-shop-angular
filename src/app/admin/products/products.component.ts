@@ -19,6 +19,7 @@ import {
 } from 'rxjs/operators'
 import { Product } from 'src/app/common/common.interfaces'
 import { ProductsRequest } from 'src/app/common/productsRequest'
+import { AppMessagesService } from 'src/app/common/services/app-messages.service'
 
 import { ProductsService } from '../services/products.service'
 
@@ -32,7 +33,11 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   search = new FormControl('', Validators.minLength(2))
   isLoading = false
   @ViewChild(MatPaginator) paginator: MatPaginator
-  constructor(private productsService: ProductsService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private productsService: ProductsService,
+    private cd: ChangeDetectorRef,
+    private messagesService: AppMessagesService
+  ) {}
 
   ngOnInit() {}
   ngAfterViewInit() {
@@ -72,5 +77,23 @@ export class ProductsComponent implements OnInit, AfterViewInit {
         this.paginator.pageIndex = data.page
         this.products = data.products
       })
+  }
+
+  delete(product: Product) {
+    this.messagesService.confirmAction(
+      `Delete product ${product.name}?`,
+      'Delete',
+      this.getDeleteProductFunc(product)
+    )
+  }
+
+  getDeleteProductFunc(product: Product): Function {
+    return () => {
+      this.productsService.removeProduct(product.id).subscribe(success => {
+        if (success) {
+          this.products = this.products.filter(p => p.id !== product.id)
+        }
+      })
+    }
   }
 }

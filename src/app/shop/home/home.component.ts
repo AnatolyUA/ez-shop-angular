@@ -12,7 +12,7 @@ import {
       <h1>Shop Categories</h1>
       <div class="flex-blocks">
         <a *ngFor="let cat of categories" [routerLink]="getLink(cat.id)">
-          <mat-card>
+          <mat-card matRipple>
             <mat-card-title>{{ cat.name }}</mat-card-title>
             <mat-card-content *ngIf="cat.description">
               <div>{{ cat.description }}</div>
