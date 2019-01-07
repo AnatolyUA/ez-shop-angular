@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { first } from 'rxjs/operators'
 import { Product } from 'src/app/common/common.interfaces'
 import { ProductsRequest } from 'src/app/common/productsRequest'
 import {
@@ -35,17 +36,20 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = parseInt(this.activatedRote.snapshot.params['id'], 10)
-    this.productsService.getProduct(id).subscribe(
-      p => {
-        this.product = p
-        this.loading = false
-      },
-      error => {
-        // TODO: show notification on error
-        console.log(error)
-        this.loading = false
-      }
-    )
+    this.productsService
+      .getProduct(id)
+      .pipe(first())
+      .subscribe(
+        p => {
+          this.product = p
+          this.loading = false
+        },
+        error => {
+          // TODO: show notification on error
+          console.log(error)
+          this.loading = false
+        }
+      )
   }
 
   getLink(categoryId: number) {

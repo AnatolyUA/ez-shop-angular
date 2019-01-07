@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { zip } from 'rxjs'
+import { first } from 'rxjs/operators'
 import { Category } from 'src/app/common/common.interfaces'
 import { ProductsRequest } from 'src/app/common/productsRequest'
 import {
@@ -42,12 +43,14 @@ export class HomeComponent implements OnInit {
     zip(
       this.categoriesShopMockService.getCategories(),
       this.productsService.countProductsForCategories()
-    ).subscribe(data => {
-      this.categories = data[0]
-      this.numberOfProducts = data[1]
-      this.categories = this.categories.filter(c => this.numberOfProducts[c.id] > 0)
-      this.loading = false
-    })
+    )
+      .pipe(first())
+      .subscribe(data => {
+        this.categories = data[0]
+        this.numberOfProducts = data[1]
+        this.categories = this.categories.filter(c => this.numberOfProducts[c.id] > 0)
+        this.loading = false
+      })
   }
 
   getLink(categoryId: number) {
