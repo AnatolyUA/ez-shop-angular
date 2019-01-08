@@ -1,5 +1,6 @@
 <div class="wrapper">
   <h1>Categories</h1>
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <div class="flex-blocks">
       <mat-card *ngFor="let cat of categories">
         <mat-card-title>{{ cat.name }}</mat-card-title>

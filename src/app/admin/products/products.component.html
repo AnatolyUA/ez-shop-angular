@@ -1,5 +1,6 @@
 <div class="wrapper">
   <h1>Products</h1>
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <mat-form-field class="full-width">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput placeholder="Search" aria-label="Search" [formControl]="search">

@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { of, zip } from 'rxjs'
 import { Category, Product } from 'src/app/common/common.interfaces'
 
-import { CategoriesService } from '../services/categories.service'
+import { CategoriesAdminService } from '../services/categories-admin.service'
 import { ProductsService } from '../services/products.service'
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -41,7 +41,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private categoriesService: CategoriesService,
+    private categoriesService: CategoriesAdminService,
     private productsService: ProductsService,
     private activatedRoute: ActivatedRoute,
     private router: Router

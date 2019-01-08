@@ -10,14 +10,17 @@ import { ICategoriesShop } from './interfaces'
   providedIn: 'root',
 })
 export class CategoriesShopMockService implements ICategoriesShop {
-  private categories: Category[] = []
-  private cacheId = 'categories'
-  constructor(private cacheService: CacheService) {
+  protected categories: Category[] = []
+  protected cacheId = 'categories'
+
+  constructor(protected cacheService: CacheService) {
+    console.log('CategoriesShopMockService initialized')
     this.categories = this.cacheService.getItem(this.cacheId)
     if (!this.categories || this.categories.length === 0) {
       this.seed()
     }
   }
+
   getCategories(): Observable<Category[]> {
     return of(this.categories.filter(c => c)).pipe(delay(1000))
   }

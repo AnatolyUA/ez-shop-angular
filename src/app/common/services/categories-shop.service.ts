@@ -1,53 +1,31 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import { CacheService } from 'src/app/common/cache.service'
-import { Category } from 'src/app/common/common.interfaces'
+import { delay } from 'rxjs/operators'
+
+import { CacheService } from '../cache.service'
+import { Category } from '../common.interfaces'
+import { ICategoriesShop } from './interfaces'
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoriesService extends CacheService {
-  private categories: Category[] = []
-  private cacheId = 'categories'
-  constructor() {
-    super()
-    this.categories = this.getItem(this.cacheId)
+export class CategoriesShopService implements ICategoriesShop {
+  protected categories: Category[] = []
+  protected cacheId = 'categories'
+
+  constructor(protected cacheService: CacheService) {
+    console.log('CategoriesShopService initialized')
+    this.categories = this.cacheService.getItem(this.cacheId)
     if (!this.categories || this.categories.length === 0) {
       this.seed()
     }
   }
 
   getCategories(): Observable<Category[]> {
-    if (this.categories.length < 1) {
-      this.seed()
-    }
-
-    return of(this.categories.filter(c => c))
+    return of(this.categories.filter(c => c)).pipe(delay(1000))
   }
 
-  getCategory(id: number): Observable<Category> {
-    const foundCategory = this.categories[id]
-    return of(foundCategory)
-  }
-
-  addOrUpdate(category: Category): Observable<Category> {
-    if (category.id === 0) {
-      category.id = this.categories.length
-      this.categories.push(category)
-    } else {
-      this.categories[category.id] = category
-    }
-    this.save()
-    return of(category)
-  }
-
-  remove(id: number): Observable<boolean> {
-    this.categories[id] = null
-    this.save()
-    return of(true)
-  }
-
-  private seed(): void {
+  protected seed(): void {
     const initialCategories: Category[] = [
       null,
       { id: 1, name: 'Food', description: 'food' },
@@ -96,7 +74,7 @@ export class CategoriesService extends CacheService {
     this.save()
   }
 
-  private save(): void {
-    this.setItem(this.cacheId, this.categories)
+  protected save(): void {
+    this.cacheService.setItem(this.cacheId, this.categories)
   }
 }

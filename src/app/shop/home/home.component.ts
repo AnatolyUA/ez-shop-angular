@@ -3,9 +3,7 @@ import { zip } from 'rxjs'
 import { first } from 'rxjs/operators'
 import { Category } from 'src/app/common/common.interfaces'
 import { ProductsRequest } from 'src/app/common/productsRequest'
-import {
-  CategoriesShopMockService,
-} from 'src/app/common/services/categories-shop-mock.service'
+import { CategoriesShopService } from 'src/app/common/services/categories-shop.service'
 import { ProductsShopService } from 'src/app/common/services/products-shop.service'
 
 @Component({
@@ -33,7 +31,7 @@ export class HomeComponent implements OnInit {
   numberOfProducts: Array<number>
   loading = true
   constructor(
-    private categoriesShopMockService: CategoriesShopMockService,
+    private categoriesShopMockService: CategoriesShopService,
     private productsService: ProductsShopService
   ) {}
 

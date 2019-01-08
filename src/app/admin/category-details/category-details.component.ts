@@ -7,7 +7,7 @@ import { delay, startWith } from 'rxjs/operators'
 import { Category, Product } from 'src/app/common/common.interfaces'
 import { ProductsRequest } from 'src/app/common/productsRequest'
 
-import { CategoriesService } from '../services/categories.service'
+import { CategoriesAdminService } from '../services/categories-admin.service'
 import { ProductsService } from '../services/products.service'
 
 class ProductForCategory extends Product {
@@ -43,7 +43,7 @@ export class CategoryDetailsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private categoriesService: CategoriesService,
+    private categoriesService: CategoriesAdminService,
     private productsService: ProductsService,
     private activatedRoute: ActivatedRoute,
     private router: Router

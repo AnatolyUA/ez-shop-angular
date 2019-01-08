@@ -3,7 +3,7 @@ import { zip } from 'rxjs'
 import { Category } from 'src/app/common/common.interfaces'
 import { AppMessagesService } from 'src/app/common/services/app-messages.service'
 
-import { CategoriesService } from '../services/categories.service'
+import { CategoriesAdminService } from '../services/categories-admin.service'
 import { ProductsService } from '../services/products.service'
 
 @Component({
@@ -12,11 +12,12 @@ import { ProductsService } from '../services/products.service'
   styles: [],
 })
 export class CategoriesComponent implements OnInit {
+  loading = true
   categories: Category[]
   numberOfProducts: Array<number>
 
   constructor(
-    private categoriesService: CategoriesService,
+    private categoriesService: CategoriesAdminService,
     private productsService: ProductsService,
     private messagesService: AppMessagesService
   ) {}
@@ -32,6 +33,8 @@ export class CategoriesComponent implements OnInit {
         this.numberOfProducts[c.id] = this.numberOfProducts[c.id]
           ? this.numberOfProducts[c.id]
           : 0
+
+        this.loading = false
       })
     })
   }
@@ -45,10 +48,12 @@ export class CategoriesComponent implements OnInit {
   }
   private getDeleteCategoryFunc(id: number): Function {
     return () => {
+      this.loading = true
       this.categoriesService.remove(id).subscribe(success => {
         if (success) {
           this.categories = this.categories.filter(c => c.id !== id)
         }
+        this.loading = false
       })
     }
   }

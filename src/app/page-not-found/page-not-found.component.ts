@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core'
   selector: 'ez-shop-page-not-found',
   template: `
     <p>page-not-found!</p>
-    <p>Go back to <a routerLink="/home">home</a></p>
+    <p>Go back to <a routerLink="/shop">home</a></p>
   `,
   styles: [],
 })

@@ -7,9 +7,7 @@ import { merge } from 'rxjs'
 import { debounceTime, filter, tap } from 'rxjs/operators'
 import { Category, Product } from 'src/app/common/common.interfaces'
 import { OrderBy, ProductsRequest } from 'src/app/common/productsRequest'
-import {
-  CategoriesShopMockService,
-} from 'src/app/common/services/categories-shop-mock.service'
+import { CategoriesShopService } from 'src/app/common/services/categories-shop.service'
 import {
   ProductsShopServiceMock,
 } from 'src/app/common/services/products-shop-mock.service'
@@ -56,7 +54,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatButtonToggleGroup) sorting: MatButtonToggleGroup
 
   constructor(
-    private categoriesShopService: CategoriesShopMockService,
+    private categoriesShopService: CategoriesShopService,
     private productsShopServie: ProductsShopServiceMock,
     private router: Router,
     private activatedRoute: ActivatedRoute,
