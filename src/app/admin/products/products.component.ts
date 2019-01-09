@@ -80,20 +80,10 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   }
 
   delete(product: Product) {
-    this.messagesService.confirmAction(
-      `Delete product ${product.name}?`,
-      'Delete',
-      this.getDeleteProductFunc(product)
-    )
-  }
-
-  getDeleteProductFunc(product: Product): Function {
-    return () => {
-      this.productsService.removeProduct(product.id).subscribe(success => {
-        if (success) {
-          this.products = this.products.filter(p => p.id !== product.id)
-        }
-      })
-    }
+    this.productsService.removeProduct(product.id).subscribe(success => {
+      if (success) {
+        this.products = this.products.filter(p => p.id !== product.id)
+      }
+    })
   }
 }

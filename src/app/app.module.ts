@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { Injector, NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
@@ -12,6 +12,7 @@ import { ProductsShopService } from './common/services/products-shop.service'
 import { MaterialModule } from './material.module'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 
+export let InjectorInstance: Injector
 @NgModule({
   declarations: [AppComponent, PageNotFoundComponent],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MaterialModule],
@@ -29,4 +30,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private injector: Injector) {
+    InjectorInstance = injector
+  }
+}

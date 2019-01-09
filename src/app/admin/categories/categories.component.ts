@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { zip } from 'rxjs'
 import { Category } from 'src/app/common/common.interfaces'
+import { confirmable } from 'src/app/common/decorators'
 import { AppMessagesService } from 'src/app/common/services/app-messages.service'
 
 import { CategoriesAdminService } from '../services/categories-admin.service'
@@ -39,22 +40,14 @@ export class CategoriesComponent implements OnInit {
     })
   }
 
+  @confirmable('Delete {name} category (id = {id})?')
   delete(category: Category) {
-    this.messagesService.confirmAction(
-      `Delete category ${category.name}?`,
-      'Delete',
-      this.getDeleteCategoryFunc(category.id)
-    )
-  }
-  private getDeleteCategoryFunc(id: number): Function {
-    return () => {
-      this.loading = true
-      this.categoriesService.remove(id).subscribe(success => {
-        if (success) {
-          this.categories = this.categories.filter(c => c.id !== id)
-        }
-        this.loading = false
-      })
-    }
+    this.loading = true
+    this.categoriesService.remove(category.id).subscribe(success => {
+      if (success) {
+        this.categories = this.categories.filter(c => c.id !== category.id)
+      }
+      this.loading = false
+    })
   }
 }
